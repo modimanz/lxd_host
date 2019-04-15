@@ -1,0 +1,24 @@
+---
+
+- name: Check if there are storage devices yet
+  shell: lxc storage list | tail -n +4
+  register: lxcstorage
+
+- name: Output the lxcstorage variable
+  debug:
+    var: lxcstorage
+
+- name: Run LXD Init
+  become: true
+  become_user: root
+  shell:
+    cmd: |
+      cat << EOF | lxd init --preseed
+      config: {}
+      storage_pools:
+      - name: default
+        driver: dir
+        config:
+          source: ""
+      EOF
+  when: lxcstorage.stdout == ""

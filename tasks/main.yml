@@ -1,0 +1,9 @@
+---
+
+- name: Install Required Packages
+  include_tasks: packages.yml
+
+- name: Install Remotes if this is not the localhost
+  include_tasks: remote-config.yml
+  when: inventory_hostname is not localhost
+

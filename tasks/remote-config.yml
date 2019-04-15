@@ -1,0 +1,34 @@
+---
+
+- name: LXD Config Core.Http_address
+  command: |
+    "lxc config set core.https_address [::]:{{ lxc_host_port }}"
+  register: lxcconfigcorehttpsaddress
+
+- name: LXC Config Core Trust Password
+  command: |
+    "lxc config set core.trust_password {{ container_password }}"
+  register: lxcconfigcorepassword
+
+- name: Local LXC Config HTTPS Address
+  command: |
+    "lxc config set core.https_address [::]:{{ lxc_host_port }}"
+  register: locallxchttpsaddress
+  delegate_to: localhost
+  #become: true
+
+- name: Local LXC Config
+  expect:
+    command: |
+      "lxc remote add {{ inventory_hostname_short }} {{ ansible_ssh_host }}"
+    responses:
+      "Certificate":
+        - y
+  #become: true
+  ignore_errors: True
+  register: lxc_config_result
+  delegate_to: localhost
+
+- name: Check if the LXC Config failed because it already exists
+  fail: msg="The LXC remote could not be added"
+  when: "'exists as' not in lxc_config_result.stdout"

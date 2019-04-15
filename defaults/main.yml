@@ -1,0 +1,6 @@
+---
+
+# Trusted Password for the LXD Remote
+lxd_password: changethispasswordplease123
+
+lxc_host_port: 8443
