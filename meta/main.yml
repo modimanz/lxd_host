@@ -1,0 +1,17 @@
+galaxy_info:
+  author: Morgan D Massens
+  description: LXD Host Role - create and connect to a remote lxd server. Used with modimanz/lxd_host
+  company: Mobi8
+
+  license: MIT
+
+  min_ansible_version: 1.2
+
+  platforms:
+    - name: Ubuntu
+      version:
+        - 18.04
+
+  galaxy_tags: []
+
+dependencies: []
